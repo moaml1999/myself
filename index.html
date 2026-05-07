@@ -1,54 +1,637 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>معرض أعمالي | Portfolio</title>
+  <style>
+    :root {
+      --bg: #070b16;
+      --card: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.14);
+      --text: #f5f7fb;
+      --muted: #aab4c8;
+      --blue: #2f7cff;
+      --cyan: #28d7ff;
+      --white: #ffffff;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Tahoma", "Arial", sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(47, 124, 255, 0.28), transparent 34%),
+        radial-gradient(circle at 80% 0%, rgba(40, 215, 255, 0.20), transparent 32%),
+        linear-gradient(135deg, #050814, #0d1427 55%, #050814);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 11, 22, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    nav {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      box-shadow: 0 12px 28px rgba(47, 124, 255, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .hero {
+      padding: 86px 0 58px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .badge {
+      width: fit-content;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #d9f7ff;
+      background: rgba(40, 215, 255, 0.10);
+      border: 1px solid rgba(40, 215, 255, 0.24);
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 68px);
+      line-height: 1.18;
+      margin-bottom: 18px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff, #72e4ff, #5b8cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 680px;
+      margin-bottom: 28px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 20px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, border 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      box-shadow: 0 16px 36px rgba(47, 124, 255, 0.28);
+    }
+
+    .btn-outline {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 430px;
+      border-radius: 34px;
+      padding: 24px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -70px;
+      background: conic-gradient(from 180deg, transparent, rgba(47,124,255,.35), transparent, rgba(40,215,255,.24), transparent);
+      animation: spin 9s linear infinite;
+    }
+
+    .profile-box {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      min-height: 382px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 26px;
+      padding: 24px;
+      background: rgba(5, 8, 20, 0.76);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar {
+      width: 118px;
+      height: 118px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      font-size: 44px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #152346, #2f7cff 65%, #28d7ff);
+      box-shadow: 0 20px 44px rgba(47, 124, 255, 0.28);
+      margin-bottom: 22px;
+    }
+
+    .profile-box h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .profile-box p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .stat {
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.10);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      color: #72e4ff;
+    }
+
+    .stat span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    section {
+      padding: 62px 0;
+    }
+
+    .section-title {
+      margin-bottom: 28px;
+    }
+
+    .section-title span {
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      margin-top: 6px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.16);
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 8px 13px;
+      border-radius: 999px;
+      color: #dfe8ff;
+      background: rgba(47, 124, 255, 0.12);
+      border: 1px solid rgba(47, 124, 255, 0.25);
+      font-size: 13px;
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .project-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .project-img {
+      height: 170px;
+      display: grid;
+      place-items: center;
+      font-size: 46px;
+      font-weight: 900;
+      color: white;
+      background: linear-gradient(135deg, rgba(47,124,255,.9), rgba(40,215,255,.65));
+    }
+
+    .project-content {
+      padding: 20px;
+    }
+
+    .project-content h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .project-content p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .small-link {
+      color: #7ee8ff;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .gallery-item {
+      min-height: 145px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 30px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(47,124,255,0.20), rgba(40,215,255,0.10));
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    footer {
+      padding: 28px 0;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .about-grid,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav {
+        height: auto;
+        padding: 16px 0;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+
+      .projects-grid,
+      .gallery-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        min-height: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Portfolio</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="https://github.com/moaml1999" target="_blank">GitHub Profile</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Introduction paragraph about yourself.</p>
+  <header>
+    <nav class="container">
+      <a class="logo" href="#home">
+        <span class="logo-mark">M</span>
+        <span>Moamel Portfolio</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#about">عني</a>
+        <a href="#skills">المهارات</a>
+        <a href="#projects">المشاريع</a>
+        <a href="#gallery">الأعمال</a>
+        <a href="#contact">تواصل</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container" id="home">
+      <div>
+        <div class="badge">مهندس طب حياتي • مطوّر مشاريع تقنية • صانع حلول ذكية</div>
+        <h1>أحوّل الأفكار إلى <span class="gradient-text">مشاريع عملية</span> بواجهة عصرية وتجربة واضحة.</h1>
+        <p>
+          أنا مؤمن أن التقنية ليست مجرد كود أو دوائر، بل حل لمشكلة حقيقية. هنا أعرض جزءًا من أعمالي في البرمجة، الإلكترونيات، أنظمة التحكم، تطبيقات Raspberry Pi، Arduino، ESP32، والواجهات التفاعلية.
+        </p>
+        <div class="actions">
+          <a href="#projects" class="btn btn-primary">مشاهدة المشاريع</a>
+          <a href="#contact" class="btn btn-outline">تواصل معي</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="profile-box">
+          <div>
+            <div class="avatar">M</div>
+            <h2>Moamel</h2>
+            <p>مهتم ببناء حلول ذكية تجمع بين البرمجة، المتحكمات، الحساسات، واجهات المستخدم، وأنظمة التحكم.</p>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>20+</strong>
+              <span>مشروع وتجربة</span>
+            </div>
+            <div class="stat">
+              <strong>5+</strong>
+              <span>مجالات تقنية</span>
+            </div>
+            <div class="stat">
+              <strong>100%</strong>
+              <span>حلول عملية</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>Skill 1</li>
-            <li>Skill 2</li>
-            <li>Skill 3</li>
-            <!-- Add more as needed -->
-        </ul>
+
+    <section class="container" id="about">
+      <div class="section-title">
+        <span>من أنا؟</span>
+        <h2>نبذة مختصرة</h2>
+      </div>
+
+      <div class="grid about-grid">
+        <div class="card">
+          <h3>عنّي</h3>
+          <p>
+            أنا Moamel، أعمل على مشاريع تجمع بين الهندسة الطبية، الإلكترونيات، البرمجة، وأنظمة التحكم. أحب بناء أنظمة مفيدة مثل أجهزة مراقبة، روبوتات، ألعاب تعليمية، واجهات تحكم، وحلول تعتمد على الحساسات والذكاء الاصطناعي.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>ماذا أقدّم؟</h3>
+          <p>
+            أستطيع تصميم واجهات بسيطة وعصرية، برمجة متحكمات Arduino وESP32، بناء تطبيقات Raspberry Pi، ربط الحساسات، إنشاء أنظمة تحكم، وتجهيز مشاريع قابلة للعرض أو الاستخدام العملي.
+          </p>
+        </div>
+      </div>
     </section>
-    
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
+
+    <section class="container" id="skills">
+      <div class="section-title">
+        <span>المهارات</span>
+        <h2>الأدوات والتقنيات</h2>
+      </div>
+
+      <div class="card">
+        <p>هذه أهم المجالات التي أعمل عليها ويمكنك تعديلها حسب مهاراتك الحقيقية:</p>
+        <div class="skills">
+          <span class="tag">Arduino</span>
+          <span class="tag">ESP32</span>
+          <span class="tag">Raspberry Pi</span>
+          <span class="tag">Python</span>
+          <span class="tag">Pygame</span>
+          <span class="tag">HTML / CSS / JS</span>
+          <span class="tag">IoT</span>
+          <span class="tag">Sensors</span>
+          <span class="tag">Robotics</span>
+          <span class="tag">Medical Devices</span>
+          <span class="tag">GitHub Pages</span>
+          <span class="tag">UI Design</span>
+        </div>
+      </div>
     </section>
-    
-    <footer>
-        <p>© 2026 My Portfolio</p>
-    </footer>
+
+    <section class="container" id="projects">
+      <div class="section-title">
+        <span>مشاريعي</span>
+        <h2>أعمال مختارة</h2>
+      </div>
+
+      <div class="grid projects-grid">
+        <article class="card project-card">
+          <div class="project-img">🤖</div>
+          <div class="project-content">
+            <h3>روبوت تتبع مسار</h3>
+            <p>نظام روبوت يعتمد على حساسات IR، محركات Stepper، وخوارزمية مسار لاختيار الطريق المناسب.</p>
+            <a class="small-link" href="projects.html">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-img">💧</div>
+          <div class="project-content">
+            <h3>مضخة جرعات ذكية</h3>
+            <p>مشروع ESP32 للتحكم بمضخة وسرعة تدفق وشاشة OLED مع واجهة إعدادات وتحكم آمن.</p>
+            <a class="small-link" href="projects.html">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-img">🎮</div>
+          <div class="project-content">
+            <h3>ألعاب Raspberry Pi</h3>
+            <p>ألعاب تفاعلية باستخدام Python وPygame مع أزرار GPIO وصوتيات وواجهات مناسبة للشاشات.</p>
+            <a class="small-link" href="projects.html">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-img">⚡</div>
+          <div class="project-content">
+            <h3>نظام حماية كهربائي</h3>
+            <p>نظام مراقبة فولتية وتيار باستخدام INA219، شاشة LCD، GPS، وريليات حماية.</p>
+            <a class="small-link" href="projects.html">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-img">👁️</div>
+          <div class="project-content">
+            <h3>واجهة تعرف على الوجوه</h3>
+            <p>تطبيق كاميرا لإضافة وحذف الأشخاص وتسجيل الحضور أو النشاط بواجهة سهلة الاستخدام.</p>
+            <a class="small-link" href="projects.html">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-img">🌐</div>
+          <div class="project-content">
+            <h3>واجهات ويب ولوحات تحكم</h3>
+            <p>تصميم صفحات تعريفية ولوحات تحكم بسيطة لعرض البيانات والمشاريع بشكل احترافي.</p>
+            <a class="small-link" href="projects.html">عرض التفاصيل</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="gallery">
+      <div class="section-title">
+        <span>معرض الأعمال</span>
+        <h2>صور وفيديوهات</h2>
+      </div>
+
+      <div class="grid gallery-grid">
+        <div class="card gallery-item">ضع صورة مشروع هنا</div>
+        <div class="card gallery-item">ضع فيديو أو رابط هنا</div>
+        <div class="card gallery-item">ضع صورة جهاز هنا</div>
+        <div class="card gallery-item">ضع لقطة واجهة هنا</div>
+      </div>
+    </section>
+
+    <section class="container" id="contact">
+      <div class="contact-box">
+        <div>
+          <div class="section-title" style="margin-bottom: 10px;">
+            <span>تواصل</span>
+            <h2>هل تريد مشاهدة المزيد من أعمالي؟</h2>
+          </div>
+          <p style="color: var(--muted);">يمكنك تعديل رقم الهاتف وروابط التواصل حسب حساباتك.</p>
+        </div>
+
+        <div class="actions">
+          <a href="https://wa.me/9647874552989" class="btn btn-primary" target="_blank">واتساب</a>
+          <a href="mailto:your-email@example.com" class="btn btn-outline">إيميل</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Moamel. جميع الحقوق محفوظة.
+    </div>
+  </footer>
 </body>
 </html>
